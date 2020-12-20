@@ -9,12 +9,14 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
+client = discord.Client()
 bot = commands.Bot(command_prefix='!')
 
 
 @bot.event
 async def on_ready():
-	guild = discord.utils.get(bot.guilds, name=GUILD)
+	print(f'{bot.user.name} has connected to Discord!')
+	guild = discord.utils.get(client.guilds, name=GUILD)
 
 	members = '\n - '.join([member.name for member in guild.members])
 	print(
@@ -66,7 +68,7 @@ async def roll(ctx, number_of_dice: int, number_of_sides: int):
 
 @bot.command(name='create-channel')
 @commands.has_role('admin')
-async def create_channel(ctx, channel_name='real-python'):
+async def create_channel(ctx, channel_name='new-nagabot-channel'):
 	guild = ctx.guild
 	existing_channel = discord.utils.get(guild.channels, name=channel_name)
 	if not existing_channel:
